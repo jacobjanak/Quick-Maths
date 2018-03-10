@@ -10,18 +10,20 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="equation-container" class="container">
-      <p id="equation"></p>
-    </div>
-    <div id="guess-container" class="container">
-      <input id="guess" type="text" />
-    </div>
-    <div id="answer-container" class="container">
-      <span id="indicator">
-        <i id="right" class="fas fa-check"></i>
-        <i id="wrong" class="fas fa-times"></i>
-      </span>
-      <span id="answer"></span>
+    <div id="app">
+      <div id="equation-container" class="container">
+        <p id="equation">Press enter to begin</p>
+      </div>
+      <div id="guess-container" class="container">
+        <input id="guess" type="text" disabled />
+      </div>
+      <div id="answer-container" class="container">
+        <span id="indicator">
+          <i id="right" class="fas fa-check"></i>
+          <i id="wrong" class="fas fa-times"></i>
+        </span>
+        <span id="answer"><!-- populated by JS --></span>
+      </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>

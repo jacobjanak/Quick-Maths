@@ -1,5 +1,12 @@
 // Global variables
 let i;
+let num, operands, operator;
+let gameInProgress = false;
+let enterKeyCode = 13;
+
+// App settings
+const maximumNumber = 99;
+const minimumNumber = 10;
 const operators = [{
   forComputer: '+',
   forHuman: '+',
@@ -14,40 +21,52 @@ const operators = [{
 // Utility functions
 const randomNumberBetween = (min, max) => { return Math.round(Math.random() * (max - min) + min) };
 
-// App settings
-const maximumNumber = 99;
-const minimumNumber = 10;
+function app() {
+  // reset global vars
+  num = "";
+  operator = operators[randomNumberBetween(0, operators.length - 1)];
+  operands = [];
 
-let operands = []
-for (i = 0; i < 2; i++) {
-  operands.push(randomNumberBetween(maximumNumber, minimumNumber))
+  // so far this for loop must only run twice
+  for (i = 0; i < 2; i++) {
+    operands.push(randomNumberBetween(maximumNumber, minimumNumber))
+  }
+
+  // reset DOM
+  $('#equation').text(operands[0] + ' ' + operator.forHuman + ' ' + operands[1])
+  $('#guess').val('')
+  $('#right').hide()
+  $('#wrong').hide()
+  $('#answer').text('')
 }
 
-let operator = operators[randomNumberBetween(0, operators.length - 1)];
-
-$('#equation').text(operands[0] + ' ' + operator.forHuman + ' ' + operands[1])
-
-
-let num = "";
 $(document).on('keyup', function(event) {
-  if (!isNaN(event.key) || event.key === "-" || event.key === ".") {
-    num = num + event.key;
-    $('#guess').val(num)
-  }
-  else if (event.key === "enter" || event.keyCode === 13) {
-    let answer = eval(operands[0] + operator.forComputer + operands[1]);
-    if (num == answer) {
-      $('#right').show()
-      $('#wrong').hide()
-    } else {
-      $('#right').hide()
-      $('#wrong').show()
-      $('#answer').text(answer)
+  if (gameInProgress) {
+
+    // user is typing
+    if (!isNaN(event.key) || event.key === "-" || event.key === ".") {
+      num += event.key;
+      $('#guess').val(num)
     }
-    app()
+
+    // user is submitting guess
+    else if (event.keyCode === enterKeyCode) {
+      gameInProgress = false;
+      let answer = eval(operands[0] + operator.forComputer + operands[1]);
+      if (num == answer) {
+        $('#right').show()
+        $('#wrong').hide()
+      } else {
+        $('#right').hide()
+        $('#wrong').show()
+        $('#answer').text(answer)
+      }
+    }
+  } else {
+    // enter key starts the app
+    if (event.keyCode === enterKeyCode) {
+      gameInProgress = true;
+      app()
+    }
   }
 })
-
-function app() {
-
-}

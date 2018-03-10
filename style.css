@@ -1,8 +1,17 @@
-.container {
+#app {
+  position: absolute;
+  top:  50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+#app > .container {
   margin: 0 0 20px;
   text-align: center;
   font-size: 32px;
 }
+
 #equation {
   text-align: center;
   font-size: 32px;
@@ -14,15 +23,16 @@
   width: 200px;
   text-align: center;
   font-size: 32px;
+  color: black;
 }
 
 /* get spans vertically-centered */
-#answer-container { line-height: 48px; }
+#answer-container { line-height: 48px; height: 48px; }
 #answer { vertical-align: top; }
 
 #right, #wrong {
-  display: none;
+  display: none; /* hide on page load */
   font-size: 48px;
 }
-#right { color: green; }
+#right { color: green; margin-left: 12px;}
 #wrong { color: red; }
