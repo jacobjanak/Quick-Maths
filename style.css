@@ -1,0 +1,28 @@
+.container {
+  margin: 0 0 20px;
+  text-align: center;
+  font-size: 32px;
+}
+#equation {
+  text-align: center;
+  font-size: 32px;
+}
+#guess {
+  display: block;
+  margin: 0 auto;
+  height: 40px;
+  width: 200px;
+  text-align: center;
+  font-size: 32px;
+}
+
+/* get spans vertically-centered */
+#answer-container { line-height: 48px; }
+#answer { vertical-align: top; }
+
+#right, #wrong {
+  display: none;
+  font-size: 48px;
+}
+#right { color: green; }
+#wrong { color: red; }
