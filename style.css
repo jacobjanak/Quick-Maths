@@ -1,3 +1,8 @@
+* {
+  font-family: 'Mina', sans-serif;
+}
+
+/* APP */
 #app {
   position: absolute;
   top:  50%;
@@ -9,30 +14,103 @@
 #app > .container {
   margin: 0 0 20px;
   text-align: center;
-  font-size: 32px;
+  font-size: 2rem;
 }
-
 #equation {
   text-align: center;
-  font-size: 32px;
+  font-size: 2rem;
 }
 #guess {
-  display: block;
+  display: none; /* hide on page load */
   margin: 0 auto;
+  border: 1px solid black;
   height: 40px;
   width: 200px;
   text-align: center;
-  font-size: 32px;
+  font-size: 2rem;
   color: black;
 }
-
-/* get spans vertically-centered */
-#answer-container { line-height: 48px; height: 48px; }
-#answer { vertical-align: top; }
-
 #right, #wrong {
   display: none; /* hide on page load */
   font-size: 48px;
 }
-#right { color: green; margin-left: 12px;}
-#wrong { color: red; }
+#right {
+  color: green;
+  margin-left: 12px;
+}
+#wrong {
+  color: red;
+}
+/* get spans vertically-centered */
+#answer-container {
+  line-height: 48px;
+  height: 48px;
+}
+#answer {
+  vertical-align: top;
+}
+/* END APP */
+
+/* ICON POSITIONING */
+#highscores-container, #settings-container {
+  position: absolute;
+  top: 20px;
+  width: 230px;
+}
+#highscores-container { left: 0; }
+#settings-container { right: 0; }
+#trophy-container, #cog-container {
+  width: 80px;
+  text-align: center;
+  font-size: 2rem;
+}
+#trophy-container { float: left; }
+#cog-container { float: right; }
+#highscores, #settings {
+  display: none;
+  width: 150px;
+}
+/* END ICON POSITIONING */
+
+/* HIGHSCORES */
+#trophy:hover {
+  cursor: pointer;
+  color: gold;
+}
+#highscores {
+  float: right;
+  font-size: 1.25rem;
+}
+#highscores > tbody > tr {
+  height: 1.25em;
+}
+.highscore {
+  width: 50px;
+  text-align: right;
+}
+.highscore-name {
+  width: 90px;
+  padding-left: 10px;
+  text-align: left;
+}
+/* END HIGHSCORES */
+
+/* SETTINGS */
+#cog:hover {
+  cursor: pointer;
+  -webkit-animation: spin 1s linear infinite;
+  -moz-animation spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { transform:rotate(360deg); } }
+#settings {
+
+}
+#settings > #name-input {
+  width: calc(100% - 6px);
+  text-align: center;
+  font-size: 1.25em;
+}
+/* END SETTTINGS */

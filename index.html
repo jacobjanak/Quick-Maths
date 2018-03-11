@@ -4,12 +4,17 @@
     <meta charset="utf-8" />
     <!-- above meta tags must come first -->
     <title>Quick Maths</title>
-    <!-- Fontawesome (icons) -->
+    <!-- reset -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
+    <!-- icons -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
     <!-- my styles -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+
     <div id="app">
       <div id="equation-container" class="container">
         <p id="equation">Press enter to begin</p>
@@ -26,6 +31,30 @@
       </div>
     </div>
 
+    <div id="highscores-container">
+      <div id="trophy-container">
+        <i id="trophy" class="fas fa-trophy"></i>
+      </div>
+      <table id="highscores">
+        <tbody>
+          <tr>
+            <td class="highscore">123</td>
+            <td class="highscore-name">Jake</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="settings-container">
+      <div id="cog-container">
+        <i id="cog" class="fas fa-cog"></i>
+      </div>
+      <div id="settings">
+        <input id="name-input" type="text" placeholder="Enter Name" />
+      </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="script.js"></script>
   </body>
