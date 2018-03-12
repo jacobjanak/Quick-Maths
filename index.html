@@ -22,7 +22,8 @@
       <div id="guess-container" class="container">
         <input id="guess" type="text" disabled />
       </div>
-      <div id="answer-container" class="container">
+      <div id="answer-and-timer-container" class="container">
+        <span id="timer"></span>
         <span id="indicator">
           <i id="right" class="fas fa-check"></i>
           <i id="wrong" class="fas fa-times"></i>
@@ -31,16 +32,15 @@
       </div>
     </div>
 
+    <div id="score-container"><!-- populated by JS --></div>
+
     <div id="highscores-container">
       <div id="trophy-container">
         <i id="trophy" class="fas fa-trophy"></i>
       </div>
       <table id="highscores">
         <tbody>
-          <tr>
-            <td class="highscore">123</td>
-            <td class="highscore-name">Jake</td>
-          </tr>
+          <!-- populated by JS -->
         </tbody>
       </table>
     </div>

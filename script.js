@@ -2,6 +2,7 @@
 let i; // for looping
 let num, operands, operator; // for keeping track of the equation
 let gameInProgress = false; // game won't start until started by user
+let name = '';
 let score = 0; // score is correct guesses in a row
 
 // App settings
@@ -33,7 +34,6 @@ const config = {
 };
 firebase.initializeApp(config);
 let database = firebase.database();
-
 
 // app is ran through the keyboard
 $(document).on('keyup', function(event) {
@@ -70,9 +70,11 @@ function app() {
     randomNumberBetween(maximumNumber, minimumNumber)
   ];
 
-  database.ref().set({
-    highScores: [1,0]
-  })
+  if (operator.forComputer === '*') {
+    timer.start(20) // give more time for multiplication
+  } else {
+    timer.start(10) // give less time for + and -
+  }
 
   // reset DOM
   $('#equation').text(operands[0] + ' ' + operator.forHuman + ' ' + operands[1])
@@ -82,24 +84,122 @@ function app() {
   $('#answer').text('')
 }
 
+// when user submits their guess
 function submit() {
+  timer.stop()
+
   let answer = eval(operands[0] + operator.forComputer + operands[1]);
   if (answer === parseInt(num)) {
     score++
+    save()
+    $('#score-container').text(score + ' in a row')
     $('#right').show()
     $('#wrong').hide()
   } else {
     score = 0;
+    $('#score-container').text(score + ' in a row')
     $('#right').hide()
     $('#wrong').show()
     $('#answer').text(answer)
   }
 }
 
+function save() {
+  if (name.length > 0) {
+    database.ref().once('value').then(function(snapshot) {
+      let highscores = snapshot.val().highScores;
+      let nameExists = false;
+      for (i = 0; i < highscores.length; i++) {
+        if (highscores[i].name === name) {
+          nameExists = true;
+          if (score > highscores[i].score) {
+            highscores[i].score = score;
+            database.ref().set({ highScores: highscores })
+          }
+        }
+      }
+      if (!nameExists) {
+        highscores.push({
+          name: name,
+          score: score
+        })
+        database.ref().set({ highScores: highscores })
+      }
+    })
+  }
+}
+
+let timer = {
+  start: function(time) {
+    timer.stop() // just in case
+    timer.time = time;
+
+    // update DOM
+    $('#timer').show()
+    timer.displayCountdown()
+
+    timer.interval = setInterval(function() {
+      timer.time--
+
+      if (timer.time === 0) {
+        timer.stop()
+        gameInProgress = false;
+        submit() // submit users answer
+      } else {
+        timer.displayCountdown()
+      }
+    }, 1000)
+  },
+  stop: function() {
+    clearInterval(timer.interval)
+    $('#timer').empty().hide()
+  },
+  displayCountdown: function() {
+    if (timer.time <= 60) {
+      const formattedTime = ('0' + timer.time).slice(-2);
+      $('#timer').text(':' + formattedTime)
+    }
+    //NOTE: more code for longer timers may be needed
+  },
+  interval: null,
+  time: 0,
+}
+
+$('#name-input').on('change', function() {
+  name = $(this).val().trim();
+})
+
+// highscores
 $(document).on('click', '#trophy', function() {
   $('#highscores').toggle()
 })
 
+// settings
 $(document).on('click', '#cog', function() {
   $('#settings').toggle()
 })
+
+// update leaderboard
+database.ref().on('value', function(snapshot) {
+  let highscores = snapshot.val().highScores;
+  highscores.sort(compare)
+  console.log(highscores)
+  $('#highscores').children('tbody').empty()
+  for (i = 0; i < highscores.length; i++) {
+    $('#highscores').children('tbody').append(`
+      <tr>
+        <td class="highscore">${highscores[i].score}</td>
+        <td class="highscore-name">${highscores[i].name}</td>
+      </tr>`
+    )
+  }
+})
+
+// for sorting
+function compare(a, b) {
+  if (a.score < b.score)
+    return 1;
+  if (a.score > b.score)
+    return -1;
+  return 0;
+}
